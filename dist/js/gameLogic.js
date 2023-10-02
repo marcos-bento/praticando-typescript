@@ -58,6 +58,7 @@ export class GameLogic {
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado");
                 elemento.disabled = true;
+                elemento.style.opacity = "50%";
             });
         }
         else {

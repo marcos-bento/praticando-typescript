@@ -6,7 +6,7 @@ import { embaralhar } from "./shuffleCards.js";
 
 const cardContainer: HTMLElement = document.querySelector(".card__container") as HTMLElement;
 
-const cards:Card[] = embaralhar(newGame(3));
+const cards:Card[] = embaralhar(newGame(5));
 createCards(cards, cardContainer);
 
 console.table(cards);
