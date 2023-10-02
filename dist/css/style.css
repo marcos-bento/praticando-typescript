@@ -1,0 +1,19 @@
+@import url(cards.css);
+@import url(page.css);
+
+:root{
+    /* Colors */
+    --principal-color: #6499E9;
+    --secondary-color: #9EDDFF;
+    --thir-color: #A6F6FF;
+    --fourth-color: #BEFFF7;
+
+    /* Fonts */
+    --principal-font: 'Ubuntu', sans-serif;
+}
+
+body{
+    font-family: var(--principal-font);
+    background-image: linear-gradient(var(--principal-color), var(--fourth-color));
+    height: 100vh;
+}

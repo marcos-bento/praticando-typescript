@@ -1,0 +1,14 @@
+.principal__title{
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.principal__score{
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+}

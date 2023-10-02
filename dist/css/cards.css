@@ -1,0 +1,19 @@
+
+.card__container{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-wrap: wrap;
+    margin: 1rem;
+}
+
+.card{
+    height: 150px;
+    width: 150px;
+    background-image: url("../img/temaOceano/cardCover.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+}

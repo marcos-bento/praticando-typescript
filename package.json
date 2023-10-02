@@ -1,0 +1,13 @@
+{
+  "name": "memory-game",
+  "version": "1.0.0",
+  "description": "Praticando Typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc -w",
+    "start": "node dist/js/index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
