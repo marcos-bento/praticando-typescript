@@ -2,17 +2,16 @@ import { Card } from "./cards.js";
 import { Player } from "./player.js";
 
 export class GameLogic{
-    private scoreBoard: HTMLElement;
-    private player1: Player;
-    private player2: Player | null = null;
-    private player1Score: HTMLElement;
-    private player2Score: HTMLElement | null = null;
-    private cards: Card[];
-    private rodada: number = 1;
-    private etapa: number = 0;
-    private pontos: number = 0;
-    private primeiraEscolha: string;
-    private segundaEscolha: string;
+    private scoreBoard: HTMLElement;                        // Atributo HTML do container de pontuações
+    private player1: Player;                                // Instancia uma classe Player para salvar o score do player 1
+    private player2: Player | null = null;                  // Instancia uma classe Player para salvar o score Se existir player 2
+    private player1Score: HTMLElement;                      // Atributo HTML do player 1
+    private player2Score: HTMLElement | null = null;        // Atributo HTML do player 2 se existir
+    private cards: Card[];                                  // Instancia um deck de cartas
+    private rodada: number = 1;                             // Marca a rodada do player 1 e do player 2
+    private etapa: number = 0;                              // Marca a primeira e a segunda carta selecionada
+    private primeiraEscolha: string;                        // Salva a primeira carta selecionada
+    private segundaEscolha: string;                         // Salva a segunda carta selecionada
 
     constructor(_cards: Card[]){
         this.cards = _cards;

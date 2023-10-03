@@ -14,7 +14,6 @@ export class GameLogic {
         this.player2Score = null;
         this.rodada = 1;
         this.etapa = 0;
-        this.pontos = 0;
         this.cards = _cards;
         this.scoreBoard = document.querySelector(".scoreBoard");
         this.player1 = new Player();

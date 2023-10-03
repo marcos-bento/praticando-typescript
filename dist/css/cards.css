@@ -23,8 +23,8 @@
     }
 }
 
-/* @media screen and (max-width: 500px){
+@media screen and (max-width: 500px){
     .card__container{
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
-} */
+}
