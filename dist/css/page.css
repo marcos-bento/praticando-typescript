@@ -1,14 +1,62 @@
 .principal__title{
     color: white;
     font-size: 3rem;
-    font-weight: bold;
-    text-transform: uppercase;
     text-align: center;
     padding-top: 1rem;
+    margin: 0 1rem;
 }
 
 .principal__score{
     color: white;
     font-size: 1rem;
     text-align: center;
+}
+
+.scoreBoard{
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+}
+
+.player1_score{
+    color: blue;
+    text-shadow: 1px 1px 1px white;
+}
+
+.player2_score{
+    color: red;
+    text-shadow: 1px 1px 1px white;
+}
+
+.active_player {
+    animation: pulse 1s infinite;
+}
+
+.btn_home{
+    position: fixed;
+    top: +4%;
+    left: +4%;
+}
+
+.btn_home_text{
+    color: white;
+    padding: 0.5rem 0;
+}
+
+@media screen and (min-width: 400px){
+    .principal__title{
+        margin: 0 4rem;
+    }
 }

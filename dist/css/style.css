@@ -1,11 +1,12 @@
 @import url(cards.css);
 @import url(page.css);
+@import url(menu.css);
 
 :root{
     /* Colors */
     --principal-color: #6499E9;
     --secondary-color: #9EDDFF;
-    --thir-color: #A6F6FF;
+    --third-color: #A6F6FF;
     --fourth-color: #BEFFF7;
 
     /* Fonts */
@@ -15,5 +16,5 @@
 body{
     font-family: var(--principal-font);
     background-image: linear-gradient(var(--principal-color), var(--fourth-color));
-    height: 100vh;
+    height: fit-content;
 }

@@ -1,0 +1,119 @@
+.menu_container{
+    height: 100vh;
+}
+
+.menu__title{
+    color: white;
+    font-size: 3rem;
+    text-align: center;
+    padding: 1rem 0 0 0;
+}
+
+/* Animação para card flutuante no menu */
+@keyframes rotate { 
+    0% {
+      transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    100% {
+      transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+}
+
+.menu_container_image{
+    position: fixed;
+    transform: rotate(45deg);
+    width: 140px;
+    height: 140px;
+}
+
+.menu_container_image-right{
+    animation: rotate 5s linear infinite; /* Aplicando a animação contínua */
+    right: +10%;
+}
+
+.menu_container_image-left{
+    animation: rotate 8s linear infinite; /* Aplicando a animação contínua */
+    left: +10%;
+}
+
+.menu__subtittle{
+    text-align: center;
+    padding: 1rem 0;
+    color: aquamarine;
+}
+
+.button_container{
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin: auto;
+    gap: 1rem;
+}
+
+.button_container_btn{
+    height: 80px;
+    border-radius: 40px;
+    border: 2px solid black;
+    background-image: linear-gradient( var(--third-color), var(--principal-color) ,var(--fourth-color));
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.button_container_btn:hover{
+    border: 4px solid black;
+    background-image: none;
+    background-color: black;
+    cursor: pointer;
+}
+
+.rodape{
+    background-color: var(--principal-color);
+    color: white;
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    height: 2.5rem;
+    text-align: center;
+}
+
+.rodape p {
+    padding-top: 0.75rem;
+    margin: 0 2rem;
+}
+
+@media screen and (max-width: 390px){
+    .menu_container_image{
+        width: 40px;
+        height: 40px;
+        top: +10%!important;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .rodape p {
+        padding-top: 0;
+    }
+
+    .menu_container_image{
+        top: +25%;
+    }
+
+    .menu_container_image-right{
+        right: +4%;
+    }
+    
+    .menu_container_image-left{
+        left: +4%;
+    }
+}
+
+@media screen and (max-width: 900px){
+
+    .menu_container_image{
+        width: 40px;
+        height: 40px;
+    }
+
+}

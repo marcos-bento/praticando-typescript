@@ -1,8 +1,14 @@
 import { Card } from "./cards.js";
+import { Player } from "./player.js";
 
 export class GameLogic{
-    private pontuacao: HTMLElement;
+    private scoreBoard: HTMLElement;
+    private player1: Player;
+    private player2: Player | null = null;
+    private player1Score: HTMLElement;
+    private player2Score: HTMLElement | null = null;
     private cards: Card[];
+    private rodada: number = 1;
     private etapa: number = 0;
     private pontos: number = 0;
     private primeiraEscolha: string;
@@ -10,7 +16,8 @@ export class GameLogic{
 
     constructor(_cards: Card[]){
         this.cards = _cards;
-        this.pontuacao = document.querySelector(".principal__score") as HTMLElement;
+        this.scoreBoard = document.querySelector(".scoreBoard") as HTMLElement;
+        this.player1 = new Player();
     };
     
     public async start(event: any){
@@ -24,7 +31,7 @@ export class GameLogic{
                     await this.sleep(750); // Aguardar 750 ms para saber se acertou ou não
                     if (this.valida(this.primeiraEscolha, this.segundaEscolha)){
                         alert("PONTO");
-                        this.pontuar(10);
+                        this.pontuar(10, this.rodada); // Acertou: Aumenta 10 pontos para o jogador da rodada
                         this.desviraCards(true);
                     } else {
                         this.desviraCards();
@@ -35,13 +42,32 @@ export class GameLogic{
         };
     };
 
+    public modoDeJogo(qtdJogadores: string): void{
+        if (qtdJogadores === "1 jogador"){
+            this.scoreBoard.innerHTML = `<h2 class="principal__score">Jogador 1: 0 pts</h2>`;
+            this.player1Score = document.querySelector(".principal__score") as HTMLElement;
+        } else {
+            this.scoreBoard.innerHTML = `<h2 class="player1_score active_player">Jogador 1: 0 pts</h2> <h2 class="player2_score">Jogador 2: 0 pts</h2>`;
+            this.player1Score = document.querySelector(".player1_score") as HTMLElement;
+            this.player2Score = document.querySelector(".player2_score") as HTMLElement;
+            this.player2 = new Player();
+        };
+    };
+
     private valida(primeiro: string, segundo: string): boolean{
         return primeiro === segundo
     };
 
-    private pontuar(score: number): void{
-        this.pontos += score;
-        this.pontuacao.innerHTML = `Pontos: ${this.pontos} pts`
+    private pontuar(score: number, rodada: number): void{
+        if (rodada === 1){
+            this.player1.score += score;
+            this.player1Score.innerHTML = `Jogador 1: ${this.player1.score} pts`
+        } else {
+            if (this.player2Score){
+                this.player2.score += score;
+                this.player2Score.innerHTML = `Jogador 2: ${this.player2.score} pts`
+            };
+        };
     }
 
     private desviraCards(pontos?: boolean): void{
@@ -53,12 +79,26 @@ export class GameLogic{
                 elemento.style.opacity = "50%";
             });
         } else {
+            if (this.player2){ // Se existir 2 players, passa Rodada
+                this.passaRodada();
+            };
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado");
                 elemento.style.backgroundImage = `url("../../dist/img/temaOceano/cardCover.jpg")`;
             });
-        }
-  
+        };
+    }
+
+    private passaRodada(): void{
+        if (this.rodada === 1){
+            this.player1Score.classList.remove("active_player");
+            this.player2Score?.classList.add("active_player");
+            this.rodada = 2;
+        } else {
+            this.player2Score?.classList.remove("active_player");
+            this.player1Score.classList.add("active_player");
+            this.rodada = 1;
+        };
     }
 
     private recuperaElemento(event: any): string{

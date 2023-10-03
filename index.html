@@ -15,18 +15,30 @@
 
     <!-- linkando ao estilo CSS padrão -->
     <link rel="stylesheet" href="dist/css/style.css">
+
+    <!-- Linkando ao FontAwesome -->
+    <script src="https://kit.fontawesome.com/e36fc46d40.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="cabecalho"></header>
 
-    <main class="principal">
-        <h1 class="principal__title">Jogo da memória!</h1>
-        <h2 class="principal__score">Pontos: 0 pts</h2>
-        <section class="card__container">
+    <main class="menu_container">
+        <h1 class="menu__title">Jogo da memória!</h1>
+        <img class="menu_container_image menu_container_image-right" src="./dist/img/temaOceano/cardCover.jpg" alt="">
+        <img class="menu_container_image menu_container_image-left" src="./dist/img/temaOceano/cardCover.jpg" alt="">
+        <h2 class="menu__subtittle">você pode mudar o tema em configurações!</h2>
+        
+        <div class="button_container">
+            <button class="button_container_btn btn_1jogador"><i class="fa-solid fa-user fa-xl" style="color: #ffffff;"></i> 1 Jogador</button>
+            <button class="button_container_btn btn_2jogadores"><i class="fa-solid fa-user-group fa-xl" style="color: #ffffff;"></i> 2 Jogadores</button>
+            <button class="button_container_btn btn_config"><i class="fa-solid fa-gear fa-xl" style="color: #ffffff;"></i> Configurações</button>
+        </div>
 
-        </section>
 
     </main>
-    <script type="module" src="/dist/js/index.js"></script>
+    <script type="module" src="/dist/js/menu.js"></script>
+    <footer class="rodape">
+        <p>Desenvolvido por Marcos Bento. 2023 - Projeto sem fins lucrativos.</p>
+    </footer>
 </body>
 </html>

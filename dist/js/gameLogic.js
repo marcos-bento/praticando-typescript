@@ -7,12 +7,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { Player } from "./player.js";
 export class GameLogic {
     constructor(_cards) {
+        this.player2 = null;
+        this.player2Score = null;
+        this.rodada = 1;
         this.etapa = 0;
         this.pontos = 0;
         this.cards = _cards;
-        this.pontuacao = document.querySelector(".principal__score");
+        this.scoreBoard = document.querySelector(".scoreBoard");
+        this.player1 = new Player();
     }
     ;
     start(event) {
@@ -28,7 +33,7 @@ export class GameLogic {
                         yield this.sleep(750);
                         if (this.valida(this.primeiraEscolha, this.segundaEscolha)) {
                             alert("PONTO");
-                            this.pontuar(10);
+                            this.pontuar(10, this.rodada);
                             this.desviraCards(true);
                         }
                         else {
@@ -44,13 +49,37 @@ export class GameLogic {
         });
     }
     ;
+    modoDeJogo(qtdJogadores) {
+        if (qtdJogadores === "1 jogador") {
+            this.scoreBoard.innerHTML = `<h2 class="principal__score">Jogador 1: 0 pts</h2>`;
+            this.player1Score = document.querySelector(".principal__score");
+        }
+        else {
+            this.scoreBoard.innerHTML = `<h2 class="player1_score active_player">Jogador 1: 0 pts</h2> <h2 class="player2_score">Jogador 2: 0 pts</h2>`;
+            this.player1Score = document.querySelector(".player1_score");
+            this.player2Score = document.querySelector(".player2_score");
+            this.player2 = new Player();
+        }
+        ;
+    }
+    ;
     valida(primeiro, segundo) {
         return primeiro === segundo;
     }
     ;
-    pontuar(score) {
-        this.pontos += score;
-        this.pontuacao.innerHTML = `Pontos: ${this.pontos} pts`;
+    pontuar(score, rodada) {
+        if (rodada === 1) {
+            this.player1.score += score;
+            this.player1Score.innerHTML = `Jogador 1: ${this.player1.score} pts`;
+        }
+        else {
+            if (this.player2Score) {
+                this.player2.score += score;
+                this.player2Score.innerHTML = `Jogador 2: ${this.player2.score} pts`;
+            }
+            ;
+        }
+        ;
     }
     desviraCards(pontos) {
         const colecaoElementos = document.querySelectorAll(".virado");
@@ -62,11 +91,30 @@ export class GameLogic {
             });
         }
         else {
+            if (this.player2) {
+                this.passaRodada();
+            }
+            ;
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado");
                 elemento.style.backgroundImage = `url("../../dist/img/temaOceano/cardCover.jpg")`;
             });
         }
+        ;
+    }
+    passaRodada() {
+        var _a, _b;
+        if (this.rodada === 1) {
+            this.player1Score.classList.remove("active_player");
+            (_a = this.player2Score) === null || _a === void 0 ? void 0 : _a.classList.add("active_player");
+            this.rodada = 2;
+        }
+        else {
+            (_b = this.player2Score) === null || _b === void 0 ? void 0 : _b.classList.remove("active_player");
+            this.player1Score.classList.add("active_player");
+            this.rodada = 1;
+        }
+        ;
     }
     recuperaElemento(event) {
         const cardID = parseInt(event.target.getAttribute("id"));
