@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Player } from "./player.js";
+import { Sound } from "./soundManager.js";
 export class GameLogic {
     constructor(_cards) {
         this.player2 = null;
@@ -17,6 +18,7 @@ export class GameLogic {
         this.cards = _cards;
         this.scoreBoard = document.querySelector(".scoreBoard");
         this.player1 = new Player();
+        this.sons = new Sound();
     }
     ;
     start(event) {
@@ -29,13 +31,14 @@ export class GameLogic {
                 else {
                     if (!event.target.classList.contains("virado")) {
                         this.segundaEscolha = this.recuperaElemento(event);
-                        yield this.sleep(750);
+                        yield this.sleep(1000);
                         if (this.valida(this.primeiraEscolha, this.segundaEscolha)) {
-                            alert("PONTO");
-                            this.pontuar(10, this.rodada);
+                            this.sons.playCorreto();
                             this.desviraCards(true);
+                            this.pontuar(10, this.rodada);
                         }
                         else {
+                            this.sons.playIncorreto();
                             this.desviraCards();
                         }
                         this.etapa = 0;
@@ -60,6 +63,7 @@ export class GameLogic {
             this.player2 = new Player();
         }
         ;
+        this.sons.playNovoJogo();
     }
     ;
     valida(primeiro, segundo) {
@@ -79,12 +83,95 @@ export class GameLogic {
             ;
         }
         ;
+        this.verificaFimDoJogo();
     }
+    ;
+    verificaFimDoJogo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const colecaoElementos = document.querySelectorAll(".oculto");
+            if (colecaoElementos.length === 0) {
+                yield this.sleep(1000);
+                this.sons.playEndGame();
+                if (this.player2) {
+                    this.FimDoJogo(this.player1.score > this.player2.score ? "Jogador 1" : this.player1.score === this.player2.score ? "Empate" : "jogador 2");
+                }
+                else {
+                    this.FimDoJogo("Jogador");
+                }
+            }
+        });
+    }
+    ;
+    FimDoJogo(vencedor) {
+        const modal = document.getElementById("modal");
+        const icon = (vencedor != "Empate" ? "trofeu" : "empate");
+        if (modal) {
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h1>${vencedor}!
+                    <h2>O Jogo Acabou!</h2>
+                    <img class="modal_img" src="./dist/img/${icon}.png">
+                    <p>Parabéns! Você concluiu o jogo.</p>
+                    <!-- Botão para fechar o modal -->
+                    <button class="close-button" onclick="fecharModal()">Menu</button>
+                    <button class="restart-button" onclick="reiniciar()">Reiniciar</button>
+                </div>`;
+            modal.style.display = 'block';
+            const closeButton = modal.querySelector(".close-button");
+            const restartButton = modal.querySelector(".restart-button");
+            if (closeButton) {
+                closeButton.addEventListener("click", this.fecharModal);
+            }
+            if (restartButton) {
+                restartButton.addEventListener("click", this.reiniciar);
+            }
+        }
+    }
+    ;
+    fecharModal() {
+        const modal = document.getElementById("modal");
+        if (modal) {
+            modal.style.display = 'none';
+            window.location.href = "index.html";
+        }
+        ;
+    }
+    ;
+    reiniciar() {
+        const modal = document.getElementById("modal");
+        if (modal) {
+            modal.style.display = 'none';
+            window.location.href = "game.html";
+        }
+        ;
+    }
+    ;
+    recuperaElemento(event) {
+        const cardID = parseInt(event.target.getAttribute("id"));
+        const elementoBotao = document.getElementById(cardID.toString());
+        const cardCorrespondente = this.cards.find(elemento => elemento._cardNumber === cardID);
+        this.viraCards(elementoBotao, cardCorrespondente);
+        return cardCorrespondente === null || cardCorrespondente === void 0 ? void 0 : cardCorrespondente._cardName.toString();
+    }
+    ;
+    viraCards(elemento, cardCorrespondente) {
+        elemento.classList.add("virado");
+        this.startRotation(elemento);
+        elemento.style.backgroundImage = `url("../../dist/img/temaOceano/${cardCorrespondente === null || cardCorrespondente === void 0 ? void 0 : cardCorrespondente._cardName.toString()}.jpg")`;
+    }
+    ;
+    startRotation(elemento) {
+        elemento.classList.add('rotating');
+        elemento.addEventListener('animationend', function () {
+            elemento.classList.remove('rotating');
+        });
+    }
+    ;
     desviraCards(pontos) {
         const colecaoElementos = document.querySelectorAll(".virado");
         if (pontos) {
             colecaoElementos.forEach(elemento => {
-                elemento.classList.remove("virado");
+                elemento.classList.remove("virado", "oculto");
                 elemento.disabled = true;
                 elemento.style.opacity = "50%";
             });
@@ -101,6 +188,7 @@ export class GameLogic {
         }
         ;
     }
+    ;
     passaRodada() {
         var _a, _b;
         if (this.rodada === 1) {
@@ -115,15 +203,9 @@ export class GameLogic {
         }
         ;
     }
-    recuperaElemento(event) {
-        const cardID = parseInt(event.target.getAttribute("id"));
-        const elementoBotao = document.getElementById(cardID.toString());
-        const cardCorrespondente = this.cards.find(elemento => elemento._cardNumber === cardID);
-        elementoBotao.classList.add("virado");
-        elementoBotao.style.backgroundImage = `url("../../dist/img/temaOceano/${cardCorrespondente === null || cardCorrespondente === void 0 ? void 0 : cardCorrespondente._cardName.toString()}.jpg")`;
-        return cardCorrespondente === null || cardCorrespondente === void 0 ? void 0 : cardCorrespondente._cardName.toString();
-    }
+    ;
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+    ;
 }

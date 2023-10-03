@@ -1,5 +1,6 @@
 import { Card } from "./cards.js";
 import { Player } from "./player.js";
+import { Sound } from "./soundManager.js";
 
 export class GameLogic{
     private scoreBoard: HTMLElement;                        // Atributo HTML do container de pontuações
@@ -12,14 +13,16 @@ export class GameLogic{
     private etapa: number = 0;                              // Marca a primeira e a segunda carta selecionada
     private primeiraEscolha: string;                        // Salva a primeira carta selecionada
     private segundaEscolha: string;                         // Salva a segunda carta selecionada
+    private sons: Sound;                                    // Instancia uma classe Sound para reproduzir efeitos sonoros
 
     constructor(_cards: Card[]){
         this.cards = _cards;
         this.scoreBoard = document.querySelector(".scoreBoard") as HTMLElement;
         this.player1 = new Player();
+        this.sons = new Sound();
     };
     
-    public async start(event: any){
+    public async start(event: any): Promise<void>{
         if (event.target.classList.contains("card")){
             if (this.etapa === 0){ // Se for a primeira carta a ser virada
                 this.primeiraEscolha = this.recuperaElemento(event);
@@ -27,12 +30,13 @@ export class GameLogic{
             } else { // Se for a segunda carta a ser virada
                 if (!event.target.classList.contains("virado")){ // Verifica se a segunda carta clicada é exata mesma que a primeira
                     this.segundaEscolha = this.recuperaElemento(event);
-                    await this.sleep(750); // Aguardar 750 ms para saber se acertou ou não
+                    await this.sleep(1000); // Aguardar 1000 ms para saber se acertou ou não
                     if (this.valida(this.primeiraEscolha, this.segundaEscolha)){
-                        alert("PONTO");
-                        this.pontuar(10, this.rodada); // Acertou: Aumenta 10 pontos para o jogador da rodada
+                        this.sons.playCorreto();
                         this.desviraCards(true);
+                        this.pontuar(10, this.rodada); // Acertou: Aumenta 10 pontos para o jogador da rodada
                     } else {
+                        this.sons.playIncorreto();
                         this.desviraCards();
                     }
                     this.etapa = 0;
@@ -41,7 +45,7 @@ export class GameLogic{
         };
     };
 
-    public modoDeJogo(qtdJogadores: string): void{
+    public modoDeJogo(qtdJogadores: string): void{ // Função que desenha a tela se for 1 ou 2 jogadores
         if (qtdJogadores === "1 jogador"){
             this.scoreBoard.innerHTML = `<h2 class="principal__score">Jogador 1: 0 pts</h2>`;
             this.player1Score = document.querySelector(".principal__score") as HTMLElement;
@@ -51,6 +55,7 @@ export class GameLogic{
             this.player2Score = document.querySelector(".player2_score") as HTMLElement;
             this.player2 = new Player();
         };
+        this.sons.playNovoJogo();
     };
 
     private valida(primeiro: string, segundo: string): boolean{
@@ -58,7 +63,7 @@ export class GameLogic{
     };
 
     private pontuar(score: number, rodada: number): void{
-        if (rodada === 1){
+        if (rodada === 1){ // Verifica qual o jogador acertou a pontuação
             this.player1.score += score;
             this.player1Score.innerHTML = `Jogador 1: ${this.player1.score} pts`
         } else {
@@ -67,13 +72,91 @@ export class GameLogic{
                 this.player2Score.innerHTML = `Jogador 2: ${this.player2.score} pts`
             };
         };
-    }
+        this.verificaFimDoJogo();
+    };
+    
+    private async verificaFimDoJogo(): Promise<void>{ // Valida se ainda existem cartas com a classe Oculta ou se pode acabar o jogo
+        const colecaoElementos = document.querySelectorAll(".oculto") as NodeListOf<HTMLButtonElement>
+        if(colecaoElementos.length === 0){
+            await this.sleep(1000); // Aguarda 1000ms para finalizar o jogo
+            this.sons.playEndGame();
+            if (this.player2){
+                this.FimDoJogo(this.player1.score > this.player2.score ? "Jogador 1" : this.player1.score === this.player2.score ? "Empate": "jogador 2");
+            } else {
+                this.FimDoJogo("Jogador");
+            }
+        }
+    };
+
+    private FimDoJogo(vencedor: string) {
+        const modal: HTMLElement = document.getElementById("modal") as HTMLElement;
+        const icon: string = (vencedor != "Empate" ? "trofeu" : "empate")
+        if (modal) {
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h1>${vencedor}!
+                    <h2>O Jogo Acabou!</h2>
+                    <img class="modal_img" src="./dist/img/${icon}.png">
+                    <p>Parabéns! Você concluiu o jogo.</p>
+                    <!-- Botão para fechar o modal -->
+                    <button class="close-button" onclick="fecharModal()">Menu</button>
+                    <button class="restart-button" onclick="reiniciar()">Reiniciar</button>
+                </div>`;
+            modal.style.display = 'block';
+            const closeButton: HTMLElement = modal.querySelector(".close-button") as HTMLElement;
+            const restartButton: HTMLElement = modal.querySelector(".restart-button") as HTMLElement;
+            if (closeButton) {
+                closeButton.addEventListener("click", this.fecharModal);
+            }
+            if (restartButton){
+                restartButton.addEventListener("click", this.reiniciar);
+            }
+        }
+    };
+
+    private fecharModal(): void{
+        const modal: HTMLElement = document.getElementById("modal") as HTMLElement;
+        if (modal) {
+            modal.style.display = 'none';
+            window.location.href = "index.html";
+        };
+    };
+
+    private reiniciar(): void {
+        const modal: HTMLElement = document.getElementById("modal") as HTMLElement;
+        if (modal) {
+            modal.style.display = 'none';
+            window.location.href = "game.html";
+        };
+    };
+
+    private recuperaElemento(event: any): string{
+        const cardID:number = parseInt(event.target.getAttribute("id"));
+        const elementoBotao: HTMLElement = document.getElementById(cardID.toString()) as HTMLElement;
+        const cardCorrespondente:Card = this.cards.find(elemento => elemento._cardNumber === cardID) as Card;
+        this.viraCards(elementoBotao, cardCorrespondente);
+        return cardCorrespondente?._cardName.toString();
+    };
+
+    private viraCards(elemento: HTMLElement, cardCorrespondente: Card): void{
+        elemento.classList.add("virado");
+        this.startRotation(elemento);
+        elemento.style.backgroundImage = `url("../../dist/img/temaOceano/${cardCorrespondente?._cardName.toString()}.jpg")`;
+    };
+
+    private startRotation(elemento: HTMLElement) { // Animação de carta girando
+        elemento.classList.add('rotating');
+        // Remover a classe 'rotating' após a animação terminar
+        elemento.addEventListener('animationend', function () {
+          elemento.classList.remove('rotating');
+        });
+    };
 
     private desviraCards(pontos?: boolean): void{
         const colecaoElementos = document.querySelectorAll(".virado") as NodeListOf<HTMLButtonElement>;
         if (pontos){
             colecaoElementos.forEach(elemento => {
-                elemento.classList.remove("virado");
+                elemento.classList.remove("virado", "oculto");
                 elemento.disabled = true;
                 elemento.style.opacity = "50%";
             });
@@ -86,7 +169,7 @@ export class GameLogic{
                 elemento.style.backgroundImage = `url("../../dist/img/temaOceano/cardCover.jpg")`;
             });
         };
-    }
+    };
 
     private passaRodada(): void{
         if (this.rodada === 1){
@@ -98,19 +181,10 @@ export class GameLogic{
             this.player1Score.classList.add("active_player");
             this.rodada = 1;
         };
-    }
-
-    private recuperaElemento(event: any): string{
-        const cardID:number = parseInt(event.target.getAttribute("id"));
-        const elementoBotao: HTMLElement = document.getElementById(cardID.toString()) as HTMLElement;
-        const cardCorrespondente:Card = this.cards.find(elemento => elemento._cardNumber === cardID) as Card;
-        elementoBotao.classList.add("virado");
-        elementoBotao.style.backgroundImage = `url("../../dist/img/temaOceano/${cardCorrespondente?._cardName.toString()}.jpg")`;
-        return cardCorrespondente?._cardName.toString();
-    }
+    };
 
     private sleep(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    };
 
 }
