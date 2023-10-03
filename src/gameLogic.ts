@@ -45,7 +45,7 @@ export class GameLogic{
         };
     };
 
-    public modoDeJogo(qtdJogadores: string): void{ // Função que desenha a tela se for 1 ou 2 jogadores
+    public async modoDeJogo(qtdJogadores: string): Promise<void>{ // Função que desenha a tela se for 1 ou 2 jogadores
         if (qtdJogadores === "1 jogador"){
             this.scoreBoard.innerHTML = `<h2 class="principal__score">Jogador 1: 0 pts</h2>`;
             this.player1Score = document.querySelector(".principal__score") as HTMLElement;
@@ -56,6 +56,8 @@ export class GameLogic{
             this.player2 = new Player();
         };
         this.sons.playNovoJogo();
+        await this.sleep(1000); // Aguarda 1000 ms para tocar o próx arquivo de audio;
+        this.sons.playBgm();
     };
 
     private valida(primeiro: string, segundo: string): boolean{
@@ -79,6 +81,8 @@ export class GameLogic{
         const colecaoElementos = document.querySelectorAll(".oculto") as NodeListOf<HTMLButtonElement>
         if(colecaoElementos.length === 0){
             await this.sleep(1000); // Aguarda 1000ms para finalizar o jogo
+            this.sons.pauseBgm();
+            await this.sleep(500); // Aguarda 500ms para finalizar o jogo
             this.sons.playEndGame();
             if (this.player2){
                 this.FimDoJogo(this.player1.score > this.player2.score ? "Jogador 1" : this.player1.score === this.player2.score ? "Empate": "jogador 2");

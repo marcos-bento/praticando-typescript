@@ -3,6 +3,7 @@ export class Sound{
     public incorrect:HTMLAudioElement = new Audio("./dist/sound/incorrect.wav");
     public newGame:HTMLAudioElement = new Audio("./dist/sound/newGame.wav");
     public endGame: HTMLAudioElement = new Audio("./dist/sound/endGame.wav");
+    public bgm: HTMLAudioElement = new Audio("./dist/sound/bgm.ogg");
 
     public playCorreto(){
         this.correct.play();
@@ -18,5 +19,15 @@ export class Sound{
 
     public playEndGame(){
         this.endGame.play();
+    }
+
+    public playBgm(){
+        this.bgm.play();
+        this.bgm.loop = true;
+    }
+
+    public pauseBgm(){
+        this.bgm.pause();
+        this.bgm.loop = false;
     }
 }

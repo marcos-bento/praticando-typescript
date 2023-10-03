@@ -52,18 +52,22 @@ export class GameLogic {
     }
     ;
     modoDeJogo(qtdJogadores) {
-        if (qtdJogadores === "1 jogador") {
-            this.scoreBoard.innerHTML = `<h2 class="principal__score">Jogador 1: 0 pts</h2>`;
-            this.player1Score = document.querySelector(".principal__score");
-        }
-        else {
-            this.scoreBoard.innerHTML = `<h2 class="player1_score active_player">Jogador 1: 0 pts</h2> <h2 class="player2_score">Jogador 2: 0 pts</h2>`;
-            this.player1Score = document.querySelector(".player1_score");
-            this.player2Score = document.querySelector(".player2_score");
-            this.player2 = new Player();
-        }
-        ;
-        this.sons.playNovoJogo();
+        return __awaiter(this, void 0, void 0, function* () {
+            if (qtdJogadores === "1 jogador") {
+                this.scoreBoard.innerHTML = `<h2 class="principal__score">Jogador 1: 0 pts</h2>`;
+                this.player1Score = document.querySelector(".principal__score");
+            }
+            else {
+                this.scoreBoard.innerHTML = `<h2 class="player1_score active_player">Jogador 1: 0 pts</h2> <h2 class="player2_score">Jogador 2: 0 pts</h2>`;
+                this.player1Score = document.querySelector(".player1_score");
+                this.player2Score = document.querySelector(".player2_score");
+                this.player2 = new Player();
+            }
+            ;
+            this.sons.playNovoJogo();
+            yield this.sleep(1000);
+            this.sons.playBgm();
+        });
     }
     ;
     valida(primeiro, segundo) {
@@ -91,6 +95,8 @@ export class GameLogic {
             const colecaoElementos = document.querySelectorAll(".oculto");
             if (colecaoElementos.length === 0) {
                 yield this.sleep(1000);
+                this.sons.pauseBgm();
+                yield this.sleep(500);
                 this.sons.playEndGame();
                 if (this.player2) {
                     this.FimDoJogo(this.player1.score > this.player2.score ? "Jogador 1" : this.player1.score === this.player2.score ? "Empate" : "jogador 2");
