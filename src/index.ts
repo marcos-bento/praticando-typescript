@@ -6,7 +6,7 @@ import { embaralhar } from "./shuffleCards.js";
 
 const modo:string = window.localStorage.getItem("modo") as string | "1 jogador";
 const cardContainer: HTMLElement = document.querySelector(".card__container") as HTMLElement;
-const cards:Card[] = embaralhar(newGame(2));
+const cards:Card[] = embaralhar(newGame(6));
 const logic = new GameLogic(cards);
 
 createCards(cards, cardContainer);
