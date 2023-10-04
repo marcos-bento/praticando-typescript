@@ -6,7 +6,7 @@ const modo = window.localStorage.getItem("modo");
 const cardContainer = document.querySelector(".card__container");
 const cards = embaralhar(newGame(6));
 const logic = new GameLogic(cards);
-createCards(cards, cardContainer);
+createCards(cards, cardContainer, logic._cardTheme);
 logic.modoDeJogo(modo);
 console.table(cards);
 if (cardContainer) {

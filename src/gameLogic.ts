@@ -14,13 +14,19 @@ export class GameLogic{
     private primeiraEscolha: string;                        // Salva a primeira carta selecionada
     private segundaEscolha: string;                         // Salva a segunda carta selecionada
     private sons: Sound;                                    // Instancia uma classe Sound para reproduzir efeitos sonoros
+    private cardTheme: string;                              // Salva o tema das cartas
 
     constructor(_cards: Card[]){
         this.cards = _cards;
         this.scoreBoard = document.querySelector(".scoreBoard") as HTMLElement;
         this.player1 = new Player();
         this.sons = new Sound();
+        this.cardTheme = (window.localStorage.getItem("temaDasCartas") ? window.localStorage.getItem("temaDasCartas") : "temaOceano");
     };
+
+    get _cardTheme(){
+        return this.cardTheme;
+    }
     
     public async start(event: any): Promise<void>{
         if (event.target.classList.contains("card")){
@@ -146,7 +152,7 @@ export class GameLogic{
         elemento.classList.add("virado");
         this.startRotation(elemento);
         await this.sleep(300) // Aguarda 300ms para trocar a imagem abaixo.
-        elemento.style.backgroundImage = `url("../../dist/img/temaSelva/${cardCorrespondente?._cardName.toString()}.jpg")`;
+        elemento.style.backgroundImage = `url("../../dist/img/${this.cardTheme}/${cardCorrespondente?._cardName.toString()}.jpg")`;
     };
 
     private async startRotation(elemento: HTMLElement): Promise<void> { // Animação de carta girando
@@ -173,7 +179,7 @@ export class GameLogic{
             };
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado");
-                elemento.style.backgroundImage = `url("../../dist/img/temaSelva/cardCover.jpg")`;
+                elemento.style.backgroundImage = `url("../../dist/img/${this.cardTheme}/cardCover.jpg")`;
             });
         };
     };

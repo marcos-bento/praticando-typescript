@@ -9,7 +9,7 @@ const cardContainer: HTMLElement = document.querySelector(".card__container") as
 const cards:Card[] = embaralhar(newGame(6));
 const logic = new GameLogic(cards);
 
-createCards(cards, cardContainer);
+createCards(cards, cardContainer, logic._cardTheme);
 logic.modoDeJogo(modo);
 
 console.table(cards);

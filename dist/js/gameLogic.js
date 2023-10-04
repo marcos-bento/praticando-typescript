@@ -19,8 +19,12 @@ export class GameLogic {
         this.scoreBoard = document.querySelector(".scoreBoard");
         this.player1 = new Player();
         this.sons = new Sound();
+        this.cardTheme = (window.localStorage.getItem("temaDasCartas") ? window.localStorage.getItem("temaDasCartas") : "temaOceano");
     }
     ;
+    get _cardTheme() {
+        return this.cardTheme;
+    }
     start(event) {
         return __awaiter(this, void 0, void 0, function* () {
             if (event.target.classList.contains("card")) {
@@ -165,7 +169,7 @@ export class GameLogic {
             elemento.classList.add("virado");
             this.startRotation(elemento);
             yield this.sleep(300);
-            elemento.style.backgroundImage = `url("../../dist/img/temaSelva/${cardCorrespondente === null || cardCorrespondente === void 0 ? void 0 : cardCorrespondente._cardName.toString()}.jpg")`;
+            elemento.style.backgroundImage = `url("../../dist/img/${this.cardTheme}/${cardCorrespondente === null || cardCorrespondente === void 0 ? void 0 : cardCorrespondente._cardName.toString()}.jpg")`;
         });
     }
     ;
@@ -196,7 +200,7 @@ export class GameLogic {
             ;
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado");
-                elemento.style.backgroundImage = `url("../../dist/img/temaSelva/cardCover.jpg")`;
+                elemento.style.backgroundImage = `url("../../dist/img/${this.cardTheme}/cardCover.jpg")`;
             });
         }
         ;

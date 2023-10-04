@@ -24,6 +24,9 @@
     transform: rotate(45deg);
     width: 140px;
     height: 140px;
+    background-image: url("../img/temaOceano/cardCover.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .menu_container_image-right{

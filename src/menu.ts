@@ -30,11 +30,10 @@ botaoConfig?.addEventListener("click", ()=>{
             </div>
             
             <h2>Escolha o tema:</h2>
-            <select class="modal_select_box" name="tema" id="">
-                <option selected disabled hidden>Fundo do Mar</option>
-                <option value="1">Fundo do Mar</option>
-                <option value="2">Selva</option>
-                <option value="3">Dinossauros</option>
+            <select class="modal_select_box" name="tema" id="tema">
+                <option selected value="temaOceano">Fundo do Mar</option>
+                <option value="temaSelva">Selva</option>
+                <option value="temaDinossauros">Dinossauros</option>
             </select>
             </br>
 
@@ -47,11 +46,14 @@ botaoConfig?.addEventListener("click", ()=>{
         const saveButton: HTMLElement = modal.querySelector(".save-button") as HTMLElement;
         const bgmRange: HTMLInputElement = modal.querySelector("#bgmVolume") as HTMLInputElement;
         const seRange: HTMLInputElement = modal.querySelector("#seVolume") as HTMLInputElement;
+        const theme: HTMLInputElement = modal.querySelector("#tema") as HTMLInputElement;
 
         if (saveButton){
             saveButton.addEventListener("click", ()=> {
                 window.localStorage.setItem("bgmvolume", ((parseInt(bgmRange.value))/10).toString());
                 window.localStorage.setItem("sevolume", ((parseInt(seRange.value))/10).toString());
+                window.localStorage.setItem("temaDasCartas", theme.value);
+                mudaTema(theme.value);
                 modal.style.display = "none";
             });
         };
@@ -61,4 +63,18 @@ botaoConfig?.addEventListener("click", ()=>{
         };
     }
     
+});
+
+function mudaTema(novoTema: string){
+    const imagensGirando:NodeListOf<HTMLElement> = document.querySelectorAll(".menu_container_image") as NodeListOf<HTMLElement>;
+    imagensGirando.forEach(imagem =>{
+        imagem.style.backgroundImage = `url("../../dist/img/${novoTema}/cardCover.jpg")`
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const novoTema = window.localStorage.getItem("temaDasCartas");
+    if (novoTema){
+        mudaTema(novoTema);
+    };
 });

@@ -26,11 +26,10 @@ botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventLi
             </div>
             
             <h2>Escolha o tema:</h2>
-            <select class="modal_select_box" name="tema" id="">
-                <option selected disabled hidden>Fundo do Mar</option>
-                <option value="1">Fundo do Mar</option>
-                <option value="2">Selva</option>
-                <option value="3">Dinossauros</option>
+            <select class="modal_select_box" name="tema" id="tema">
+                <option selected value="temaOceano">Fundo do Mar</option>
+                <option value="temaSelva">Selva</option>
+                <option value="temaDinossauros">Dinossauros</option>
             </select>
             </br>
 
@@ -43,10 +42,13 @@ botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventLi
         const saveButton = modal.querySelector(".save-button");
         const bgmRange = modal.querySelector("#bgmVolume");
         const seRange = modal.querySelector("#seVolume");
+        const theme = modal.querySelector("#tema");
         if (saveButton) {
             saveButton.addEventListener("click", () => {
                 window.localStorage.setItem("bgmvolume", ((parseInt(bgmRange.value)) / 10).toString());
                 window.localStorage.setItem("sevolume", ((parseInt(seRange.value)) / 10).toString());
+                window.localStorage.setItem("temaDasCartas", theme.value);
+                mudaTema(theme.value);
                 modal.style.display = "none";
             });
         }
@@ -56,4 +58,17 @@ botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventLi
         }
         ;
     }
+});
+function mudaTema(novoTema) {
+    const imagensGirando = document.querySelectorAll(".menu_container_image");
+    imagensGirando.forEach(imagem => {
+        imagem.style.backgroundImage = `url("../../dist/img/${novoTema}/cardCover.jpg")`;
+    });
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const novoTema = window.localStorage.getItem("temaDasCartas");
+    if (novoTema) {
+        mudaTema(novoTema);
+    }
+    ;
 });
