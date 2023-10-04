@@ -19,8 +19,10 @@ botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventLi
             <h1>Configurações</h1>
             <h2>Volume:</h2>
             <div class="modal_volume">
-                <p>Música de fundo: <input type="range" min="0" max="10" value="${bgmVolume * 10}" id="bgmVolume"></input></p>
-                <p>Efeitos sonoros: <input type="range" min="0" max="10" value="${seVolume * 10}" id="seVolume"></input></p>
+                <p>Música de fundo:</p>
+                <input type="range" min="0" max="10" value="${bgmVolume * 10}" id="bgmVolume"></input>
+                <p>Efeitos sonoros:</p>
+                <input type="range" min="0" max="10" value="${seVolume * 10}" id="seVolume"></input>
             </div>
             
             <h2>Escolha o tema:</h2>
