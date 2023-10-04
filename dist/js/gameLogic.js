@@ -66,7 +66,6 @@ export class GameLogic {
             ;
             this.sons.playNovoJogo();
             yield this.sleep(1000);
-            this.sons.playBgm();
         });
     }
     ;
@@ -95,7 +94,6 @@ export class GameLogic {
             const colecaoElementos = document.querySelectorAll(".oculto");
             if (colecaoElementos.length === 0) {
                 yield this.sleep(1000);
-                this.sons.pauseBgm();
                 yield this.sleep(500);
                 this.sons.playEndGame();
                 if (this.player2) {
@@ -161,15 +159,22 @@ export class GameLogic {
     }
     ;
     viraCards(elemento, cardCorrespondente) {
-        elemento.classList.add("virado");
-        this.startRotation(elemento);
-        elemento.style.backgroundImage = `url("../../dist/img/temaOceano/${cardCorrespondente === null || cardCorrespondente === void 0 ? void 0 : cardCorrespondente._cardName.toString()}.jpg")`;
+        return __awaiter(this, void 0, void 0, function* () {
+            elemento.classList.add("virado");
+            this.startRotation(elemento);
+            yield this.sleep(300);
+            elemento.style.backgroundImage = `url("../../dist/img/temaSelva/${cardCorrespondente === null || cardCorrespondente === void 0 ? void 0 : cardCorrespondente._cardName.toString()}.jpg")`;
+        });
     }
     ;
     startRotation(elemento) {
-        elemento.classList.add('rotating');
-        elemento.addEventListener('animationend', function () {
-            elemento.classList.remove('rotating');
+        return __awaiter(this, void 0, void 0, function* () {
+            elemento.classList.add('rotating');
+            yield this.sleep(300);
+            elemento.classList.add('rotating2');
+            elemento.addEventListener('animationend', function () {
+                elemento.classList.remove('rotating', 'rotating2');
+            });
         });
     }
     ;
@@ -189,7 +194,7 @@ export class GameLogic {
             ;
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado");
-                elemento.style.backgroundImage = `url("../../dist/img/temaOceano/cardCover.jpg")`;
+                elemento.style.backgroundImage = `url("../../dist/img/temaSelva/cardCover.jpg")`;
             });
         }
         ;

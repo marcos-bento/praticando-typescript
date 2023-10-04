@@ -57,7 +57,7 @@ export class GameLogic{
         };
         this.sons.playNovoJogo();
         await this.sleep(1000); // Aguarda 1000 ms para tocar o próx arquivo de audio;
-        this.sons.playBgm();
+        // this.sons.playBgm();
     };
 
     private valida(primeiro: string, segundo: string): boolean{
@@ -81,7 +81,7 @@ export class GameLogic{
         const colecaoElementos = document.querySelectorAll(".oculto") as NodeListOf<HTMLButtonElement>
         if(colecaoElementos.length === 0){
             await this.sleep(1000); // Aguarda 1000ms para finalizar o jogo
-            this.sons.pauseBgm();
+            // this.sons.pauseBgm();
             await this.sleep(500); // Aguarda 500ms para finalizar o jogo
             this.sons.playEndGame();
             if (this.player2){
@@ -142,17 +142,20 @@ export class GameLogic{
         return cardCorrespondente?._cardName.toString();
     };
 
-    private viraCards(elemento: HTMLElement, cardCorrespondente: Card): void{
+    private async viraCards(elemento: HTMLElement, cardCorrespondente: Card): Promise<void>{
         elemento.classList.add("virado");
         this.startRotation(elemento);
-        elemento.style.backgroundImage = `url("../../dist/img/temaOceano/${cardCorrespondente?._cardName.toString()}.jpg")`;
+        await this.sleep(300) // Aguarda 300ms para trocar a imagem abaixo.
+        elemento.style.backgroundImage = `url("../../dist/img/temaSelva/${cardCorrespondente?._cardName.toString()}.jpg")`;
     };
 
-    private startRotation(elemento: HTMLElement) { // Animação de carta girando
+    private async startRotation(elemento: HTMLElement): Promise<void> { // Animação de carta girando
         elemento.classList.add('rotating');
+        await this.sleep(300) // Aguarda 300ms para trocar a imagem abaixo.
+        elemento.classList.add('rotating2');
         // Remover a classe 'rotating' após a animação terminar
         elemento.addEventListener('animationend', function () {
-          elemento.classList.remove('rotating');
+          elemento.classList.remove('rotating', 'rotating2');
         });
     };
 
@@ -170,7 +173,7 @@ export class GameLogic{
             };
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado");
-                elemento.style.backgroundImage = `url("../../dist/img/temaOceano/cardCover.jpg")`;
+                elemento.style.backgroundImage = `url("../../dist/img/temaSelva/cardCover.jpg")`;
             });
         };
     };
