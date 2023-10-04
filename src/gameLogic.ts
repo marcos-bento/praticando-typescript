@@ -36,12 +36,13 @@ export class GameLogic{
             } else { // Se for a segunda carta a ser virada
                 if (!event.target.classList.contains("virado")){ // Verifica se a segunda carta clicada é exata mesma que a primeira
                     this.segundaEscolha = this.recuperaElemento(event);
-                    await this.sleep(1000); // Aguardar 1000 ms para saber se acertou ou não
                     if (this.valida(this.primeiraEscolha, this.segundaEscolha)){
+                        await this.sleep(600); // Aguardar 1000 ms para saber se acertou ou não
                         this.sons.playCorreto();
                         this.desviraCards(true);
                         this.pontuar(10, this.rodada); // Acertou: Aumenta 10 pontos para o jogador da rodada
                     } else {
+                        await this.sleep(1000); // Aguardar 1000 ms para saber se acertou ou não
                         this.sons.playIncorreto();
                         this.desviraCards();
                     }

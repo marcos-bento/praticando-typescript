@@ -1,3 +1,5 @@
+import { tema } from "./enum/tema.js";
+
 const botao1Jogador: HTMLElement = document.querySelector(".btn_1jogador") as HTMLElement;
 const botao2Jogadores: HTMLElement  = document.querySelector(".btn_2jogadores") as HTMLElement;
 const botaoConfig: HTMLElement  = document.querySelector(".btn_config") as HTMLElement;
@@ -41,7 +43,9 @@ botaoConfig?.addEventListener("click", ()=>{
             <button class="save-button">Salvar</button>
         </div>
         `
+
         modal.style.display = 'block';
+
         const closeButton: HTMLElement = modal.querySelector(".close-button") as HTMLElement;
         const saveButton: HTMLElement = modal.querySelector(".save-button") as HTMLElement;
         const bgmRange: HTMLInputElement = modal.querySelector("#bgmVolume") as HTMLInputElement;

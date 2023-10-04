@@ -35,13 +35,14 @@ export class GameLogic {
                 else {
                     if (!event.target.classList.contains("virado")) {
                         this.segundaEscolha = this.recuperaElemento(event);
-                        yield this.sleep(1000);
                         if (this.valida(this.primeiraEscolha, this.segundaEscolha)) {
+                            yield this.sleep(600);
                             this.sons.playCorreto();
                             this.desviraCards(true);
                             this.pontuar(10, this.rodada);
                         }
                         else {
+                            yield this.sleep(1000);
                             this.sons.playIncorreto();
                             this.desviraCards();
                         }
