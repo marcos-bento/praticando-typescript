@@ -98,7 +98,7 @@ export class GameLogic{
         if (modal) {
             modal.innerHTML = `
                 <div class="modal-content">
-                    <h1>${vencedor}!
+                    <h1>${vencedor}</h1>!
                     <h2>O Jogo Acabou!</h2>
                     <img class="modal_img" src="./dist/img/${icon}.png">
                     <p>Parabéns! Você concluiu o jogo.</p>
@@ -130,7 +130,7 @@ export class GameLogic{
         const modal: HTMLElement = document.getElementById("modal") as HTMLElement;
         if (modal) {
             modal.style.display = 'none';
-            window.location.href = "game.html";
+            window.location.reload();
         };
     };
 
