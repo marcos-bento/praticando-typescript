@@ -1,6 +1,7 @@
 @import url(cards.css);
 @import url(page.css);
 @import url(menu.css);
+@import url(modal.css);
 
 :root{
     /* Colors */

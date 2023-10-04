@@ -150,10 +150,10 @@ export class GameLogic{
     };
 
     private async startRotation(elemento: HTMLElement): Promise<void> { // Animação de carta girando
-        elemento.classList.add('rotating');
-        await this.sleep(300) // Aguarda 300ms para trocar a imagem abaixo.
-        elemento.classList.add('rotating2');
-        // Remover a classe 'rotating' após a animação terminar
+        elemento.classList.add('rotating'); // Efeito Rotating = A parte de trás da carta gira de 0 até 90 Graus no eixo Y
+        await this.sleep(300) // Aguarda 300ms para adicionar o efeito Rotating2.
+        elemento.classList.add('rotating2'); // Efeito Rotating2 = A parte da frente da carta gira de 90 até 0 Graus no eixo Y
+        // Remover as classes 'rotating' e 'rotating2' após a animação terminar
         elemento.addEventListener('animationend', function () {
           elemento.classList.remove('rotating', 'rotating2');
         });

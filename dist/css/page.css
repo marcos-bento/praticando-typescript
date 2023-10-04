@@ -23,7 +23,7 @@
       transform: scale(1);
     }
     50% {
-      transform: scale(1.1);
+      transform: scale(1.2);
     }
     100% {
       transform: scale(1);
@@ -53,64 +53,6 @@
 .btn_home_text{
     color: white;
     padding: 0.5rem 0;
-}
-
-.modal_content {
-    display: none;
-    position: fixed;
-    top: 20%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal_content h1, .modal_content h2, .modal_content p{
-    padding: 0.5rem;
-}
-
-
-
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.close-button {
-    background-color: #f44336;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.modal_img{
-    max-width: 80%;
-}
-
-.restart-button{
-    background-color: lightblue;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
 }
 
 @media screen and (min-width: 400px){
