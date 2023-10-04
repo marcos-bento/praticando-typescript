@@ -57,7 +57,7 @@ export class GameLogic{
         };
         this.sons.playNovoJogo();
         await this.sleep(1000); // Aguarda 1000 ms para tocar o próx arquivo de audio;
-        // this.sons.playBgm();
+        this.sons.playBgm();
     };
 
     private valida(primeiro: string, segundo: string): boolean{
@@ -81,7 +81,7 @@ export class GameLogic{
         const colecaoElementos = document.querySelectorAll(".oculto") as NodeListOf<HTMLButtonElement>
         if(colecaoElementos.length === 0){
             await this.sleep(1000); // Aguarda 1000ms para finalizar o jogo
-            // this.sons.pauseBgm();
+            this.sons.pauseBgm();
             await this.sleep(500); // Aguarda 500ms para finalizar o jogo
             this.sons.playEndGame();
             if (this.player2){

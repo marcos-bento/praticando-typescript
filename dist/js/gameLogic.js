@@ -66,6 +66,7 @@ export class GameLogic {
             ;
             this.sons.playNovoJogo();
             yield this.sleep(1000);
+            this.sons.playBgm();
         });
     }
     ;
@@ -94,6 +95,7 @@ export class GameLogic {
             const colecaoElementos = document.querySelectorAll(".oculto");
             if (colecaoElementos.length === 0) {
                 yield this.sleep(1000);
+                this.sons.pauseBgm();
                 yield this.sleep(500);
                 this.sons.playEndGame();
                 if (this.player2) {

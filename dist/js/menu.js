@@ -11,14 +11,16 @@ botao2Jogadores === null || botao2Jogadores === void 0 ? void 0 : botao2Jogadore
 });
 botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventListener("click", () => {
     const modal = document.getElementById("modal");
+    let bgmVolume = (window.localStorage.getItem("bgmvolume") ? parseFloat(window.localStorage.getItem("bgmvolume")) : 1);
+    let seVolume = (window.localStorage.getItem("sevolume") ? parseFloat(window.localStorage.getItem("sevolume")) : 1);
     if (modal) {
         modal.innerHTML = `
         <div class="modal-content">
             <h1>Configurações</h1>
             <h2>Volume:</h2>
             <div class="modal_volume">
-            <p>Música de fundo: <input type="range" min="0" max="10" value="5" id="bgmVolume"></input></p>
-            <p>Efeitos sonoros: <input type="range" min="0" max="10" value="5" id="seVolume"></input></p>
+                <p>Música de fundo: <input type="range" min="0" max="10" value="${bgmVolume * 10}" id="bgmVolume"></input></p>
+                <p>Efeitos sonoros: <input type="range" min="0" max="10" value="${seVolume * 10}" id="seVolume"></input></p>
             </div>
             
             <h2>Escolha o tema:</h2>
@@ -30,13 +32,23 @@ botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventLi
             </select>
             </br>
 
-            <button class="close-button" onclick="fecharModal()">Fechar</button>
-            <button class="save-button" onclick="save()">Salvar</button>
+            <button class="close-button">Fechar</button>
+            <button class="save-button">Salvar</button>
         </div>
         `;
         modal.style.display = 'block';
         const closeButton = modal.querySelector(".close-button");
         const saveButton = modal.querySelector(".save-button");
+        const bgmRange = modal.querySelector("#bgmVolume");
+        const seRange = modal.querySelector("#seVolume");
+        if (saveButton) {
+            saveButton.addEventListener("click", () => {
+                window.localStorage.setItem("bgmvolume", ((parseInt(bgmRange.value)) / 10).toString());
+                window.localStorage.setItem("sevolume", ((parseInt(seRange.value)) / 10).toString());
+                modal.style.display = "none";
+            });
+        }
+        ;
         if (closeButton) {
             closeButton.addEventListener("click", () => modal.style.display = "none");
         }
