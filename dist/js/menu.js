@@ -32,7 +32,14 @@ botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventLi
                 <option value="temaDinossauros">Dinossauros</option>
             </select>
             </br>
-
+            <div>
+                <h2>Tempo para cartas desvirar:</h2>
+                <select class="modal_select_box" name="tema" id="tempoParaDesvirar">
+                    <option selected value="1">1 Segundo</option>
+                    <option value="2">2 Segundos</option>
+                    <option value="3">3 Segundos</option>
+                </select>
+            </div>
             <button class="close-button">Fechar</button>
             <button class="save-button">Salvar</button>
         </div>
@@ -43,11 +50,13 @@ botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventLi
         const bgmRange = modal.querySelector("#bgmVolume");
         const seRange = modal.querySelector("#seVolume");
         const theme = modal.querySelector("#tema");
+        const tempoParaDesvirar = modal.querySelector("#tempoParaDesvirar");
         if (saveButton) {
             saveButton.addEventListener("click", () => {
                 window.localStorage.setItem("bgmvolume", ((parseInt(bgmRange.value)) / 10).toString());
                 window.localStorage.setItem("sevolume", ((parseInt(seRange.value)) / 10).toString());
                 window.localStorage.setItem("temaDasCartas", theme.value);
+                window.localStorage.setItem("tempoParaDesvirar", tempoParaDesvirar.value);
                 mudaTema(theme.value);
                 modal.style.display = "none";
             });

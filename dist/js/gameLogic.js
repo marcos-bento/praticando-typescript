@@ -14,13 +14,13 @@ export class GameLogic {
         this.player2 = null;
         this.player2Score = null;
         this.rodada = 1;
-        this.etapa = 0;
         this.cards = _cards;
         this.scoreBoard = document.querySelector(".scoreBoard");
         this.player1 = new Player();
         this.sons = new Sound();
         this.cardTheme = (window.localStorage.getItem("temaDasCartas") ? window.localStorage.getItem("temaDasCartas") : "temaOceano");
         this.cartasViradas = 0;
+        this.tempoParaDesvirar = (window.localStorage.getItem("tempoParaDesvirar") ? parseInt(window.localStorage.getItem("tempoParaDesvirar")) * 1000 : 1000);
     }
     ;
     get _cardTheme() {
@@ -29,16 +29,14 @@ export class GameLogic {
     start(event) {
         if (event.target.classList.contains("card")) {
             if (this.cartasViradas != 2) {
-                if (this.etapa === 0) {
+                if (this.cartasViradas === 0) {
                     this.primeiraEscolha = this.recuperaElemento(event);
-                    this.etapa = 1;
                     this.cartasViradas += 1;
                 }
                 else {
                     if (!event.target.classList.contains("virado")) {
                         this.segundaEscolha = this.recuperaElemento(event);
                         this.valida(this.primeiraEscolha, this.segundaEscolha);
-                        this.etapa = 0;
                         this.cartasViradas += 1;
                     }
                     ;
@@ -78,7 +76,7 @@ export class GameLogic {
                 this.pontuar(10, this.rodada);
             }
             else {
-                yield this.sleep(1000);
+                yield this.sleep(this.tempoParaDesvirar);
                 this.sons.playIncorreto();
                 this.desviraCards();
             }
@@ -208,11 +206,19 @@ export class GameLogic {
             }
             ;
             colecaoElementos.forEach(elemento => {
+                this.endRotating(elemento);
                 elemento.classList.remove("virado");
                 elemento.style.backgroundImage = `url("../../dist/img/${this.cardTheme}/cardCover.jpg")`;
             });
         }
         ;
+    }
+    ;
+    endRotating(elemento) {
+        elemento.classList.add('desvira');
+        elemento.addEventListener('animationend', function () {
+            elemento.classList.remove('desvira');
+        });
     }
     ;
     passaRodada() {

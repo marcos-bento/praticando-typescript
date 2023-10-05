@@ -10,12 +10,12 @@ export class GameLogic{
     private player2Score: HTMLElement | null = null;        // Atributo HTML do player 2 se existir
     private cards: Card[];                                  // Instancia um deck de cartas
     private rodada: number = 1;                             // Marca a rodada do player 1 e do player 2
-    private etapa: number = 0;                              // Marca a primeira e a segunda carta selecionada
     private primeiraEscolha: string;                        // Salva a primeira carta selecionada
     private segundaEscolha: string;                         // Salva a segunda carta selecionada
     private sons: Sound;                                    // Instancia uma classe Sound para reproduzir efeitos sonoros
     private cardTheme: string;                              // Salva o tema das cartas
     private cartasViradas: number;                          // Variável auxiliar para contar quantas cartas foram viradas
+    private tempoParaDesvirar: number;                      // Salva o tempo predefinido para desvirar uma carta
 
     constructor(_cards: Card[]){
         this.cards = _cards;
@@ -24,6 +24,7 @@ export class GameLogic{
         this.sons = new Sound();
         this.cardTheme = (window.localStorage.getItem("temaDasCartas") ? window.localStorage.getItem("temaDasCartas") : "temaOceano");
         this.cartasViradas = 0;
+        this.tempoParaDesvirar = (window.localStorage.getItem("tempoParaDesvirar") ? parseInt(window.localStorage.getItem("tempoParaDesvirar"))*1000 : 1000);
     };
 
     get _cardTheme(){
@@ -32,16 +33,14 @@ export class GameLogic{
     
     public start(event: any): void{
         if (event.target.classList.contains("card")){
-            if (this.cartasViradas != 2){
-                if (this.etapa === 0){ // Se for a primeira carta a ser virada
+            if (this.cartasViradas != 2){ // Controle para não permitir mais do que 2 cartas viradas ao mesmo tempo!
+                if (this.cartasViradas === 0){ // Se for a primeira carta a ser virada
                     this.primeiraEscolha = this.recuperaElemento(event);
-                    this.etapa = 1;
                     this.cartasViradas +=1;
                 } else { // Se for a segunda carta a ser virada
                     if (!event.target.classList.contains("virado")){ // Verifica se a segunda carta clicada é exata mesma que a primeira
                         this.segundaEscolha = this.recuperaElemento(event);
                         this.valida(this.primeiraEscolha, this.segundaEscolha);
-                        this.etapa = 0;
                         this.cartasViradas +=1;
                     };
                 };
@@ -71,7 +70,7 @@ export class GameLogic{
             this.desviraCards(true);
             this.pontuar(10, this.rodada); // Acertou: Aumenta 10 pontos para o jogador da rodada
         } else {
-            await this.sleep(1000); // Aguardar 1000 ms para saber se acertou ou não
+            await this.sleep(this.tempoParaDesvirar); // Aguardar X ms para saber se acertou ou não
             this.sons.playIncorreto();
             this.desviraCards();
         };
@@ -108,7 +107,7 @@ export class GameLogic{
     private FimDoJogo(vencedor: string) {
         const modal: HTMLElement = document.getElementById("modal") as HTMLElement;
         const icon: string = (vencedor != "Empate" ? "trofeu" : "empate")
-        if (modal) {
+        if (modal) { // Constroi o Modal de fim de jogo!
             modal.innerHTML = `
                 <div class="modal-content">
                     <h1>${vencedor}!</h1>
@@ -186,10 +185,19 @@ export class GameLogic{
                 this.passaRodada();
             };
             colecaoElementos.forEach(elemento => {
+                this.endRotating(elemento);
                 elemento.classList.remove("virado");
                 elemento.style.backgroundImage = `url("../../dist/img/${this.cardTheme}/cardCover.jpg")`;
             });
         };
+    };
+
+    private endRotating(elemento: HTMLElement): void { // Animação de carta girando
+        elemento.classList.add('desvira'); // Efeito Rotating = A parte de trás da carta gira de 0 até 90 Graus no eixo Y
+        // Remover as classes 'desvira' após a animação terminar
+        elemento.addEventListener('animationend', function () {
+          elemento.classList.remove('desvira');
+        });
     };
 
     private passaRodada(): void{
