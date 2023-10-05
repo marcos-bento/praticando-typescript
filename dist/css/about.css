@@ -1,0 +1,44 @@
+.body-about{
+    background-color: var(--principal-color); /* Cor de fundo de toda a página */
+    height: 100%;
+}
+
+.btn_home_container{
+    background-color: var(--principal-color);
+    padding: 0 0.5rem;
+}
+
+.titulo-objetivo,
+.titulo-descricao,
+.titulo-caracteristicas,
+.titulo-publico-alvo,
+.titulo-criador {
+    font-size: 24px;
+    color: #333; /* Cor do texto dos títulos */
+    margin-top: 20px;
+    padding: 0 3%;
+}
+
+.texto-objetivo,
+.texto-descricao,
+.texto-caracteristicas,
+.texto-publico-alvo,
+.texto-criador {
+    font-size: 16px;
+    color: #faf9f9; /* Cor do texto normal */
+    margin-bottom: 20px;
+    padding: 1rem 2rem;
+}
+
+.texto-criador{
+    padding-bottom: 2rem;
+}
+
+.destaque-caracteristicas {
+    font-weight: bold;
+    color: #000; /* Cor do texto em negrito */
+}
+
+.rodape-about{
+    background-color: gray;
+}

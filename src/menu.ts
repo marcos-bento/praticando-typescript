@@ -1,16 +1,30 @@
+// ##########################################################################
+// BOTÃO PARA 1 JOGADOR
+// ##########################################################################
+
 const botao1Jogador: HTMLElement = document.querySelector(".btn_1jogador") as HTMLElement;
-const botao2Jogadores: HTMLElement  = document.querySelector(".btn_2jogadores") as HTMLElement;
-const botaoConfig: HTMLElement  = document.querySelector(".btn_config") as HTMLElement;
 
 botao1Jogador?.addEventListener("click", ()=>{
     window.localStorage.setItem("modo", "1 jogador");
     window.location.href = "game.html";
 });
 
+// ##########################################################################
+// BOTÃO PARA 2 JOGADORES
+// ##########################################################################
+
+const botao2Jogadores: HTMLElement  = document.querySelector(".btn_2jogadores") as HTMLElement;
+
 botao2Jogadores?.addEventListener("click", ()=>{
     window.localStorage.setItem("modo", "2 jogadores");
     window.location.href = "game.html";
 });
+
+// ##########################################################################
+// BOTÃO PARA ABRIR O MODAL DE CONFIGURAÇÕES
+// ##########################################################################
+
+const botaoConfig: HTMLElement  = document.querySelector(".btn_config") as HTMLElement;
 
 botaoConfig?.addEventListener("click", ()=>{
     const modal: HTMLElement = document.getElementById("modal") as HTMLElement;
@@ -89,3 +103,15 @@ document.addEventListener("DOMContentLoaded", function() {
         mudaTema(novoTema);
     };
 });
+
+// ##########################################################################
+// BOTÃO PARA IR A PÁGINA ABOUT.HTML
+// ##########################################################################
+
+const informacoes: HTMLElement = document.querySelector(".btn_sobre") as HTMLElement;
+
+if (informacoes){
+    informacoes.addEventListener("click", ()=>{
+        window.location.href="about.html"
+    });
+}

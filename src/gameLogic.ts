@@ -65,7 +65,7 @@ export class GameLogic{
 
     private async valida(primeiro: string, segundo: string): Promise<void>{
         if (primeiro === segundo){
-            await this.sleep(600); // Aguardar 1000 ms para saber se acertou ou não
+            await this.sleep(600); // Aguardar 600ms para saber se acertou ou não
             this.sons.playCorreto();
             this.desviraCards(true);
             this.pontuar(10, this.rodada); // Acertou: Aumenta 10 pontos para o jogador da rodada
@@ -76,7 +76,7 @@ export class GameLogic{
         };
     };
 
-    public ingameConfig(): void{
+    public ingameConfig(): void{ // Função que atualiza as configurações do jogo dentro do próprio jogo (pois as configurações acontecem 1 vez no construtor)
         this.tempoParaDesvirar = (window.localStorage.getItem("tempoParaDesvirar") ? parseInt(window.localStorage.getItem("tempoParaDesvirar"))*1000 : 1000);
         const newBGMVolume = (window.localStorage.getItem("bgmvolume") ? parseFloat(window.localStorage.getItem("bgmvolume")) : 1);
         const newSEVolume = (window.localStorage.getItem("sevolume") ? parseFloat(window.localStorage.getItem("sevolume")) : 1); 
