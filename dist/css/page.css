@@ -50,9 +50,16 @@
     left: +4%;
 }
 
-.btn_home_text{
+.btn_text{
     color: white;
     padding: 0.5rem 0;
+}
+
+.btn_ingame_config{
+    text-align: right;
+    position: fixed;
+    top: +4%;
+    right: +4%;
 }
 
 @media screen and (min-width: 400px){

@@ -1,5 +1,3 @@
-import { tema } from "./enum/tema.js";
-
 const botao1Jogador: HTMLElement = document.querySelector(".btn_1jogador") as HTMLElement;
 const botao2Jogadores: HTMLElement  = document.querySelector(".btn_2jogadores") as HTMLElement;
 const botaoConfig: HTMLElement  = document.querySelector(".btn_config") as HTMLElement;
@@ -74,7 +72,7 @@ botaoConfig?.addEventListener("click", ()=>{
         if (closeButton){
             closeButton.addEventListener("click", ()=> modal.style.display = "none");
         };
-    }
+    };
     
 });
 

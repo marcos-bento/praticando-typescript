@@ -67,6 +67,7 @@ botaoConfig === null || botaoConfig === void 0 ? void 0 : botaoConfig.addEventLi
         }
         ;
     }
+    ;
 });
 function mudaTema(novoTema) {
     const imagensGirando = document.querySelectorAll(".menu_container_image");
@@ -81,4 +82,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     ;
 });
-export {};

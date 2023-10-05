@@ -17,17 +17,16 @@ export class Sound{
         this.bgmVolume = (window.localStorage.getItem("bgmvolume") ? parseFloat(window.localStorage.getItem("bgmvolume")) : 1);
         this.seVolume = (window.localStorage.getItem("sevolume") ? parseFloat(window.localStorage.getItem("sevolume")) : 1); 
 
-        this.setVolume();
+        this.setVolume(this.bgmVolume, this.seVolume);
     }
 
-    private setVolume(): void{
-        this.bgm.volume = this.bgmVolume;
-        this.correct.volume = this.seVolume;
-        this.incorrect.volume = this.seVolume;
-        this.newGame.volume = this.seVolume;
-        this.endGame.volume = this.seVolume;
+    public setVolume(newBGMVolume: number, newSEVolume: number): void{
+        this.bgm.volume = newBGMVolume;
+        this.correct.volume = newSEVolume;
+        this.incorrect.volume = newSEVolume;
+        this.newGame.volume = newSEVolume;
+        this.endGame.volume = newSEVolume;
     }
-    
 
     public playCorreto(){
         this.correct.play();

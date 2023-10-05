@@ -76,6 +76,14 @@ export class GameLogic{
         };
     };
 
+    public ingameConfig(): void{
+        this.tempoParaDesvirar = (window.localStorage.getItem("tempoParaDesvirar") ? parseInt(window.localStorage.getItem("tempoParaDesvirar"))*1000 : 1000);
+        const newBGMVolume = (window.localStorage.getItem("bgmvolume") ? parseFloat(window.localStorage.getItem("bgmvolume")) : 1);
+        const newSEVolume = (window.localStorage.getItem("sevolume") ? parseFloat(window.localStorage.getItem("sevolume")) : 1); 
+        this.sons.setVolume(newBGMVolume, newSEVolume);
+        this.sons.playNovoJogo();
+    }
+
     private pontuar(score: number, rodada: number): void{
         if (rodada === 1){ // Verifica qual o jogador acertou a pontuação
             this.player1.score += score;
