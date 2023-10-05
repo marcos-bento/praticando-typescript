@@ -20,40 +20,34 @@ export class GameLogic {
         this.player1 = new Player();
         this.sons = new Sound();
         this.cardTheme = (window.localStorage.getItem("temaDasCartas") ? window.localStorage.getItem("temaDasCartas") : "temaOceano");
+        this.cartasViradas = 0;
     }
     ;
     get _cardTheme() {
         return this.cardTheme;
     }
     start(event) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (event.target.classList.contains("card")) {
+        if (event.target.classList.contains("card")) {
+            if (this.cartasViradas != 2) {
                 if (this.etapa === 0) {
                     this.primeiraEscolha = this.recuperaElemento(event);
                     this.etapa = 1;
+                    this.cartasViradas += 1;
                 }
                 else {
                     if (!event.target.classList.contains("virado")) {
                         this.segundaEscolha = this.recuperaElemento(event);
-                        if (this.valida(this.primeiraEscolha, this.segundaEscolha)) {
-                            yield this.sleep(600);
-                            this.sons.playCorreto();
-                            this.desviraCards(true);
-                            this.pontuar(10, this.rodada);
-                        }
-                        else {
-                            yield this.sleep(1000);
-                            this.sons.playIncorreto();
-                            this.desviraCards();
-                        }
+                        this.valida(this.primeiraEscolha, this.segundaEscolha);
                         this.etapa = 0;
+                        this.cartasViradas += 1;
                     }
                     ;
                 }
                 ;
             }
             ;
-        });
+        }
+        ;
     }
     ;
     modoDeJogo(qtdJogadores) {
@@ -76,7 +70,20 @@ export class GameLogic {
     }
     ;
     valida(primeiro, segundo) {
-        return primeiro === segundo;
+        return __awaiter(this, void 0, void 0, function* () {
+            if (primeiro === segundo) {
+                yield this.sleep(600);
+                this.sons.playCorreto();
+                this.desviraCards(true);
+                this.pontuar(10, this.rodada);
+            }
+            else {
+                yield this.sleep(1000);
+                this.sons.playIncorreto();
+                this.desviraCards();
+            }
+            ;
+        });
     }
     ;
     pontuar(score, rodada) {
@@ -119,7 +126,7 @@ export class GameLogic {
         if (modal) {
             modal.innerHTML = `
                 <div class="modal-content">
-                    <h1>${vencedor}</h1>!
+                    <h1>${vencedor}!</h1>
                     <h2>O Jogo Acabou!</h2>
                     <img class="modal_img" src="./dist/img/${icon}.png">
                     <p>Parabéns! Você concluiu o jogo.</p>
@@ -187,6 +194,7 @@ export class GameLogic {
     ;
     desviraCards(pontos) {
         const colecaoElementos = document.querySelectorAll(".virado");
+        this.cartasViradas = 0;
         if (pontos) {
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado", "oculto");

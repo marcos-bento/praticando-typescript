@@ -15,6 +15,7 @@ export class GameLogic{
     private segundaEscolha: string;                         // Salva a segunda carta selecionada
     private sons: Sound;                                    // Instancia uma classe Sound para reproduzir efeitos sonoros
     private cardTheme: string;                              // Salva o tema das cartas
+    private cartasViradas: number;                          // Variável auxiliar para contar quantas cartas foram viradas
 
     constructor(_cards: Card[]){
         this.cards = _cards;
@@ -22,31 +23,27 @@ export class GameLogic{
         this.player1 = new Player();
         this.sons = new Sound();
         this.cardTheme = (window.localStorage.getItem("temaDasCartas") ? window.localStorage.getItem("temaDasCartas") : "temaOceano");
+        this.cartasViradas = 0;
     };
 
     get _cardTheme(){
         return this.cardTheme;
     }
     
-    public async start(event: any): Promise<void>{
+    public start(event: any): void{
         if (event.target.classList.contains("card")){
-            if (this.etapa === 0){ // Se for a primeira carta a ser virada
-                this.primeiraEscolha = this.recuperaElemento(event);
-                this.etapa = 1;
-            } else { // Se for a segunda carta a ser virada
-                if (!event.target.classList.contains("virado")){ // Verifica se a segunda carta clicada é exata mesma que a primeira
-                    this.segundaEscolha = this.recuperaElemento(event);
-                    if (this.valida(this.primeiraEscolha, this.segundaEscolha)){
-                        await this.sleep(600); // Aguardar 1000 ms para saber se acertou ou não
-                        this.sons.playCorreto();
-                        this.desviraCards(true);
-                        this.pontuar(10, this.rodada); // Acertou: Aumenta 10 pontos para o jogador da rodada
-                    } else {
-                        await this.sleep(1000); // Aguardar 1000 ms para saber se acertou ou não
-                        this.sons.playIncorreto();
-                        this.desviraCards();
-                    }
-                    this.etapa = 0;
+            if (this.cartasViradas != 2){
+                if (this.etapa === 0){ // Se for a primeira carta a ser virada
+                    this.primeiraEscolha = this.recuperaElemento(event);
+                    this.etapa = 1;
+                    this.cartasViradas +=1;
+                } else { // Se for a segunda carta a ser virada
+                    if (!event.target.classList.contains("virado")){ // Verifica se a segunda carta clicada é exata mesma que a primeira
+                        this.segundaEscolha = this.recuperaElemento(event);
+                        this.valida(this.primeiraEscolha, this.segundaEscolha);
+                        this.etapa = 0;
+                        this.cartasViradas +=1;
+                    };
                 };
             };
         };
@@ -67,8 +64,17 @@ export class GameLogic{
         this.sons.playBgm();
     };
 
-    private valida(primeiro: string, segundo: string): boolean{
-        return primeiro === segundo
+    private async valida(primeiro: string, segundo: string): Promise<void>{
+        if (primeiro === segundo){
+            await this.sleep(600); // Aguardar 1000 ms para saber se acertou ou não
+            this.sons.playCorreto();
+            this.desviraCards(true);
+            this.pontuar(10, this.rodada); // Acertou: Aumenta 10 pontos para o jogador da rodada
+        } else {
+            await this.sleep(1000); // Aguardar 1000 ms para saber se acertou ou não
+            this.sons.playIncorreto();
+            this.desviraCards();
+        };
     };
 
     private pontuar(score: number, rodada: number): void{
@@ -105,7 +111,7 @@ export class GameLogic{
         if (modal) {
             modal.innerHTML = `
                 <div class="modal-content">
-                    <h1>${vencedor}</h1>!
+                    <h1>${vencedor}!</h1>
                     <h2>O Jogo Acabou!</h2>
                     <img class="modal_img" src="./dist/img/${icon}.png">
                     <p>Parabéns! Você concluiu o jogo.</p>
@@ -168,6 +174,7 @@ export class GameLogic{
 
     private desviraCards(pontos?: boolean): void{
         const colecaoElementos = document.querySelectorAll(".virado") as NodeListOf<HTMLButtonElement>;
+        this.cartasViradas = 0;
         if (pontos){
             colecaoElementos.forEach(elemento => {
                 elemento.classList.remove("virado", "oculto");
