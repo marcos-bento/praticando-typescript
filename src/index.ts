@@ -4,7 +4,7 @@ import { GameLogic } from "./gameLogic.js";
 import { newGame } from "./newGame.js";
 import { embaralhar } from "./shuffleCards.js";
 
-const modo:string = window.localStorage.getItem("modo") as string | "1 jogador";
+const modo:string = window.localStorage.getItem("modo") as string | ModoDeJogo.UmJogador;
 const cardContainer: HTMLElement = document.querySelector(".card__container") as HTMLElement;
 const cards:Card[] = embaralhar(newGame(6));
 const logic = new GameLogic(cards);

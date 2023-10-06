@@ -9,6 +9,10 @@
     padding: 1rem 1rem 0 1rem;
 }
 
+.icones{
+    color: white;
+}
+
 /* Animação para card flutuante no menu */
 @keyframes rotate { 
     0% {

@@ -5,7 +5,7 @@
 const botao1Jogador: HTMLElement = document.querySelector(".btn_1jogador") as HTMLElement;
 
 botao1Jogador?.addEventListener("click", ()=>{
-    window.localStorage.setItem("modo", "1 jogador");
+    window.localStorage.setItem("modo", ModoDeJogo.UmJogador);
     window.location.href = "game.html";
 });
 
@@ -16,7 +16,7 @@ botao1Jogador?.addEventListener("click", ()=>{
 const botao2Jogadores: HTMLElement  = document.querySelector(".btn_2jogadores") as HTMLElement;
 
 botao2Jogadores?.addEventListener("click", ()=>{
-    window.localStorage.setItem("modo", "2 jogadores");
+    window.localStorage.setItem("modo", ModoDeJogo.DoisJogadores);
     window.location.href = "game.html";
 });
 
@@ -93,7 +93,7 @@ botaoConfig?.addEventListener("click", ()=>{
 function mudaTema(novoTema: string){
     const imagensGirando:NodeListOf<HTMLElement> = document.querySelectorAll(".menu_container_image") as NodeListOf<HTMLElement>;
     imagensGirando.forEach(imagem =>{
-        imagem.style.backgroundImage = `url("../../dist/img/${novoTema}/cardCover.jpg")`
+        imagem.style.backgroundImage = `url("../../dist/img/${novoTema}/cardCover.jpg")`;
     });
 }
 
