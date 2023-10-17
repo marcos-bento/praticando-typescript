@@ -18,6 +18,6 @@ O projeto foi concebido seguindo a abordagem "Mobile First" desde a primeira eta
 
 O design do projeto foi idealizado no Figma. Todos os elementos visuais foram cuidadosamente implementados para corresponder ao design proposto, com atenção aos detalhes.
 
-Utilei a metodologia Kanban para gerenciar o desenvolvimento do projeto. O fluxo de trabalho foi organizado de acordo com o desafio apresentado no Trello. Isso me permitiu manter o projeto alinhado com as metas e prazos estabelecidos.
+Utilizei a metodologia Kanban para gerenciar o desenvolvimento do projeto. O fluxo de trabalho foi organizado de acordo com o desafio apresentado no Trello. Isso me permitiu manter o projeto alinhado com as metas e prazos estabelecidos.
 
 Este projeto representa um exemplo de desenvolvimento web moderno, com foco na usabilidade, responsividade e boas práticas de programação. Fique à vontade para explorar e experimentar o "Jogo da Memória".
