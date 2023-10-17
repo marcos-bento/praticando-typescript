@@ -24,7 +24,9 @@ import gameConfig from "./gameConfig.js";
 const btnOpcoes = document.querySelector(".btn_ingame_config");
 if (btnOpcoes) {
     btnOpcoes.addEventListener("click", () => {
-        gameConfig("", logic);
+        gameConfig("", () => {
+            logic.ingameConfig();
+        });
     });
 }
 ;
